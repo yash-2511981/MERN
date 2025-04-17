@@ -1,0 +1,68 @@
+<div class="row mb-4">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/user/allBlogs">All Blogs</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Blog Details</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h2 class="mb-1"><%= blog.title %></h2>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">By: <%= blog.author.username %></small><br>
+                        <small class="text-muted">Posted: <%= new Date(blog.createdAt).toLocaleDateString() %></small>
+                        <% if (blog.updatedAt && blog.updatedAt !== blog.createdAt) { %>
+                            <br><small class="text-muted">Updated: <%= new Date(blog.updatedAt).toLocaleDateString() %></small>
+                        <% } %>
+                    </div>
+                    
+                    <% if (user && blog.author._id.toString() === user._id.toString()) { %>
+                        <div>
+                            <a href="/user/blog/edit/<%= blog._id %>" class="btn btn-sm btn-warning">Edit</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            
+            <% if (blog.image && blog.image.path) { %>
+                <img src="<%= blog.image.path %>" class="card-img-top" alt="<%= blog.title %>" style="max-height: 400px; object-fit: contain;">
+            <% } %>
+            
+            <div class="card-body">
+                <div class="blog-tags mb-4">
+                    <% if (blog.tags && blog.tags.length > 0) { %>
+                        <% blog.tags.forEach(tag => { %>
+                            <span class="badge bg-info text-dark"><%= tag %></span>
+                        <% }) %>
+                    <% } %>
+                </div>
+                
+                <div class="blog-content">
+                    <%= blog.content %>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <% if (blog.author.bio) { %>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <span class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 20px;">
+                                <%= blog.author.username.charAt(0).toUpperCase() %>
+                            </span>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">About the author</h6>
+                            <p class="mb-0 small"><%= blog.author.bio %></p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

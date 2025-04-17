@@ -1,0 +1,46 @@
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Explore All Blogs</h2>
+        <p class="lead">Discover interesting posts from all users</p>
+    </div>
+</div>
+
+<div class="row">
+    <% if (blogs && blogs.length > 0) { %>
+        <% blogs.forEach(blog => { %>
+            <div class="col-md-4 mb-4">
+                <div class="card blog-card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0"><%= blog.title %></h5>
+                    </div>
+                    <% if (blog.image && blog.image.path) { %>
+                        <img src="<%= blog.image.path %>" class="card-img-top" alt="<%= blog.title %>" style="height: 180px; object-fit: cover;">
+                    <% } %>
+                    <div class="card-body">
+                        <p class="card-text"><%= blog.summary %></p>
+                        <div class="blog-tags mb-3">
+                            <% if (blog.tags && blog.tags.length > 0) { %>
+                                <% blog.tags.forEach(tag => { %>
+                                    <span class="badge bg-info text-dark"><%= tag %></span>
+                                <% }) %>
+                            <% } %>
+                        </div>
+                        <p class="text-muted mb-0">
+                            <small>By: <%= blog.author.username %></small><br>
+                            <small>Posted on: <%= new Date(blog.createdAt).toLocaleDateString() %></small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="/user/blog/<%= blog._id %>" class="btn btn-sm btn-primary w-100">Read Full Post</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <div class="col-12">
+            <div class="alert alert-info">
+                There are no published blog posts yet. Be the first to create content!
+            </div>
+        </div>
+    <% } %>
+</div>
